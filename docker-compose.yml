@@ -1,0 +1,24 @@
+# Levanta solo MySQL para desarrollo:   docker compose up -d
+# Después se arranca el backend (mvn spring-boot:run) apuntando a esta base. Los datos quedan en el volumen "mysql_datos".
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: consultorio-mysql
+    restart: unless-stopped
+    environment:
+      # la clave sale del archivo .env (ver .env.example); si no existe, falla en vez de usar una por defecto
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:?Falta DB_PASSWORD en el archivo .env}
+      MYSQL_DATABASE: consultorio_odontologico
+      TZ: America/Argentina/Buenos_Aires
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_datos:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  mysql_datos:

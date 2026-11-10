@@ -1,0 +1,18 @@
+# Dependencias y compilados
+node_modules/
+dist/
+target/
+
+# Variables de entorno con datos reales (los .env.example SÍ se suben)
+.env
+.env.local
+
+# IDEs y sistema operativo
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

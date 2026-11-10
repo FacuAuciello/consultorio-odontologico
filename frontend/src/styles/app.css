@@ -1,0 +1,423 @@
+/*
+ Ajustes propios sobre la plantilla SB Admin 2 (que se carga antes). Solo lo que la plantilla no trae.
+ Secciones: general · agenda (calendario) · tablas · formularios · avatar y perfil
+ */
+
+/* ============================================ general ============================================ */
+
+body {
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Bootstrap 4 no trae la utilidad "gap" que sí existe en Bootstrap 5 */
+.encabezado-acciones {
+  gap: 0.5rem;
+}
+
+.estado-vacio {
+  color: #858796;
+}
+
+/* ============================================ agenda ============================================ */
+
+.texto-resumen {
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.leyenda-agenda {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.leyenda-30 { color: #4e73df; }
+.leyenda-60 { color: #1cc88a; }
+.leyenda-realizado { color: #b7b9cc; }
+
+#calendario {
+  --fc-border-color: #e3e6f0;
+  --fc-today-bg-color: rgba(78, 115, 223, 0.07);
+  --fc-button-bg-color: #4e73df;
+  --fc-button-border-color: #4e73df;
+  --fc-button-hover-bg-color: #2e59d9;
+  --fc-button-hover-border-color: #2653d4;
+  --fc-button-active-bg-color: #2653d4;
+  --fc-button-active-border-color: #244ec9;
+  --fc-event-border-color: transparent;
+}
+
+/* cada franja de 30 minutos un poco más alta para que se lea cómodo el nombre del paciente */
+#calendario .fc-timegrid-slot {
+  height: 2.6rem;
+}
+
+/* los huecos libres se iluminan al pasar el mouse: se nota que son clicables para agendar */
+#calendario .fc-timegrid-col-frame:hover,
+#calendario .fc-timegrid-slot-lane:hover {
+  cursor: pointer;
+}
+#calendario .fc-timegrid-slot-lane:hover {
+  background: rgba(78, 115, 223, 0.08);
+}
+
+#calendario .fc-col-header-cell {
+  padding: 0.6rem 0;
+  background: #f8f9fc;
+}
+#calendario .fc-col-header-cell-cushion {
+  color: #5a5c69;
+  text-transform: capitalize;
+}
+
+#calendario .fc-toolbar-title {
+  font-size: 1.25rem;
+  color: #5a5c69;
+}
+/* solo la primera letra en mayúscula ("Octubre de 2026"); capitalize pondría también "De" */
+#calendario .fc-toolbar-title::first-letter {
+  text-transform: uppercase;
+}
+
+/* colores por duración: 30 min azul, 1 hora verde; los turnos pasados se apagan */
+#calendario .fc-event {
+  border-radius: 0.35rem;
+  border-left: 4px solid transparent;
+  box-shadow: 0 1px 3px rgba(58, 59, 69, 0.2);
+  cursor: pointer;
+  transition: filter 0.15s;
+}
+#calendario .fc-event:hover {
+  filter: brightness(0.93);
+}
+/* el color del texto lo define .fc-event-main (blanco por defecto), por eso se pisa ahí y no en .fc-event */
+#calendario .fc-event.evento-30 {
+  background: #e8edfc;
+  border-left-color: #4e73df;
+}
+#calendario .fc-event.evento-30 .fc-event-main {
+  color: #224abe;
+}
+#calendario .fc-event.evento-60 {
+  background: #dcf7ec;
+  border-left-color: #1cc88a;
+}
+#calendario .fc-event.evento-60 .fc-event-main {
+  color: #0f7a54;
+}
+#calendario .fc-event.evento-realizado {
+  background: #f1f2f7;
+  border-left-color: #b7b9cc;
+}
+#calendario .fc-event.evento-realizado .fc-event-main {
+  color: #6e707e;
+}
+
+.evento-turno {
+  padding: 0.15rem 0.4rem;
+  font-size: 0.78rem;
+  line-height: 1.25;
+  overflow: hidden;
+}
+.evento-una-linea {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.evento-hora {
+  font-weight: 800;
+}
+.evento-nombre {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* en celulares la barra de herramientas del calendario se apila */
+@media (max-width: 575.98px) {
+  #calendario .fc-toolbar {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* ============================================ tablas ============================================ */
+
+.tabla-turnos {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.tabla-turnos thead th {
+  border-top: 0;
+  border-bottom: 2px solid #e3e6f0;
+  background: #f8f9fc;
+  color: #858796;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding: 0.75rem;
+}
+.tabla-turnos th.ordenable {
+  cursor: pointer;
+  user-select: none;
+}
+.tabla-turnos th.ordenable:hover {
+  color: #4e73df;
+}
+.tabla-turnos tbody td {
+  vertical-align: middle;
+  padding: 0.7rem 0.75rem;
+  border-top: 1px solid #eaecf4;
+}
+.tabla-turnos tbody tr:hover {
+  background: #f8f9fc;
+}
+/* el turno de hoy se marca con una barra azul a la izquierda */
+.tabla-turnos tbody tr.fila-hoy td:first-child {
+  box-shadow: inset 4px 0 0 #4e73df;
+}
+
+.celda-notas {
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #5a5c69;
+}
+
+.enlace-paciente:hover {
+  color: #4e73df !important;
+  text-decoration: none;
+}
+
+.duracion-30 {
+  background: #e8edfc;
+  color: #224abe;
+}
+.duracion-60 {
+  background: #dcf7ec;
+  color: #0f7a54;
+}
+
+.filtros-turnos .btn {
+  font-weight: 600;
+}
+
+.buscador-pacientes {
+  max-width: 420px;
+}
+
+/* ========================================== formularios ========================================== */
+
+/* lista desplegable del selector de pacientes */
+.combo {
+  position: relative;
+}
+.combo-lista {
+  position: absolute;
+  z-index: 1050;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 260px;
+  overflow-y: auto;
+  margin: 0.2rem 0 0;
+  padding: 0.25rem 0;
+  background: #fff;
+  border: 1px solid #d1d3e2;
+  border-radius: 0.35rem;
+}
+.combo-opcion {
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+}
+.combo-opcion.activa,
+.combo-opcion:hover {
+  background: #4e73df;
+  color: #fff;
+}
+.combo-opcion.activa .text-gray-600,
+.combo-opcion:hover .text-gray-600 {
+  color: #e8edfc !important;
+}
+.combo-vacio {
+  padding: 0.6rem 0.9rem;
+  color: #858796;
+}
+
+.historia-clinica {
+  font-family: inherit;
+  line-height: 1.55;
+  resize: vertical;
+}
+
+/* ===================================== avatar y perfil ===================================== */
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 2.3rem;
+  height: 2.3rem;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+.avatar-grande {
+  width: 5rem;
+  height: 5rem;
+  font-size: 1.7rem;
+}
+
+.datos-paciente dt {
+  color: #858796;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.datos-paciente dd {
+  margin-bottom: 0.9rem;
+  color: #3a3b45;
+  font-weight: 600;
+}
+
+/* ===================================== menú y barra superior ===================================== */
+
+/* el nombre del consultorio + profesional ocupa dos líneas: la marca deja de tener alto fijo para que no se corte */
+.sidebar .sidebar-brand {
+  height: auto;
+  min-height: 4.375rem;
+  padding: 0.9rem 0.75rem;
+}
+.sidebar .sidebar-brand .sidebar-brand-text {
+  font-size: 0.85rem;
+  line-height: 1.3;
+  text-align: left;
+}
+.sidebar .sidebar-brand .sidebar-brand-text small {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+/* la plantilla pinta "Cerrar sesión" casi blanco sobre blanco */
+.topbar.navbar-light .navbar-nav .nav-item .btn-link.nav-link {
+  color: #5a5c69;
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+.topbar.navbar-light .navbar-nav .nav-item .btn-link.nav-link:hover {
+  color: #4e73df;
+}
+
+/* ===================================== celulares ===================================== */
+
+/* los botones de filtro: en pantallas medianas caben en una fila deslizable */
+.filtros-turnos {
+  max-width: 100%;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+}
+.filtros-turnos .btn {
+  white-space: nowrap;
+}
+
+/* en celulares los botones de filtro pasan a una segunda linea en vez de quedar tapados */
+@media (max-width: 575.98px) {
+  .filtros-turnos {
+    flex-wrap: wrap;
+    overflow: visible;
+    gap: 0.25rem;
+  }
+  .filtros-turnos .btn {
+    margin-left: 0 !important;
+    border-radius: 0.2rem !important;
+  }
+}
+
+/*
+  En pantallas angostas cada fila de la tabla se muestra como una tarjeta (una tabla con muchas columnas
+  obligaba a deslizar hacia el costado y se perdian el estado y los botones). Los nombres de cada zona
+  (fecha, estado, paciente...) salen de las clases "celda-*" que lleva cada <td>. Las columnas que ya estan
+  ocultas en celular (d-none) siguen ocultas porque Bootstrap las fuerza con !important
+*/
+@media (max-width: 767.98px) {
+  .tabla-turnos,
+  .tabla-turnos tbody {
+    display: block;
+  }
+  .tabla-turnos thead {
+    display: none;
+  }
+  .tabla-turnos tbody tr {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      'fecha estado'
+      'paciente paciente'
+      'monto acciones';
+    align-items: center;
+    gap: 0.4rem 0.75rem;
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+    border: 1px solid #e3e6f0;
+    border-left: 4px solid #e3e6f0; /* mismo ancho que la barra azul de "hoy", asi todas las tarjetas quedan alineadas */
+    border-radius: 0.35rem;
+  }
+  .tabla-pacientes tbody tr {
+    border-left-width: 1px;
+  }
+  .tabla-turnos tbody td {
+    display: block;
+    padding: 0;
+    border: 0;
+  }
+  /* en la tarjeta el turno de hoy se marca con la barra azul en el borde de la tarjeta */
+  .tabla-turnos tbody tr.fila-hoy {
+    border-left: 4px solid #4e73df;
+  }
+  .tabla-turnos tbody tr.fila-hoy td:first-child {
+    box-shadow: none;
+  }
+
+  .tabla-turnos .celda-fecha {
+    grid-area: fecha;
+  }
+  .tabla-turnos .celda-estado {
+    grid-area: estado;
+    text-align: right;
+  }
+  .tabla-turnos .celda-paciente {
+    grid-area: paciente;
+  }
+  .tabla-turnos .celda-monto {
+    grid-area: monto;
+    text-align: left !important;
+  }
+  .tabla-turnos .celda-acciones {
+    grid-area: acciones;
+  }
+
+  /* la tabla de pacientes usa solo nombre, DNI y acciones */
+  .tabla-pacientes tbody tr {
+    grid-template-areas:
+      'paciente paciente'
+      'dni acciones';
+  }
+  .tabla-pacientes .celda-dni {
+    grid-area: dni;
+    color: #5a5c69;
+  }
+  .tabla-pacientes .celda-dni::before {
+    content: 'DNI ';
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: #858796;
+  }
+}

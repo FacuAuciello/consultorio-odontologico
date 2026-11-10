@@ -1,0 +1,28 @@
+target/
+.mvn/wrapper/maven-wrapper.jar
+HELP.md
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+
+### VS Code / STS ###
+.vscode/
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### secretos locales: nunca se suben ###
+.env
